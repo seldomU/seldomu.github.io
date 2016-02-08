@@ -39,7 +39,7 @@
 <!-- Toggleable sidebar -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-item">
-    <p>Home of RelationsInspector</p>
+    <p>Pages</p>
   </div>
 
   <nav class="sidebar-nav">
@@ -104,7 +104,7 @@
         <div class="post">
   <h1 class="post-title">Event-driven Dialogs with node-based Editor</h1>
   <span class="post-date">07 Feb 2016</span>
-  <p>This post covers the creation of a simple general purpose dialog system, including a visual Editor that makes it easy to use for even complex dialog graphs. It is versatile: thanks to Unity’s event widget, you can hook up any code to the dialog buttons. You can also form any shape of dialog connections: chains, trees, loops, graphs. The project lives on <a href="https://github.com/seldomU/EventDrivenDialog">GitHub</a>.</p>
+  <p>This post covers the creation of a simple general purpose dialog system, including a visual Editor that makes it easy to use for even complex dialog graphs. It’s versatile: thanks to Unity’s event widget, you can hook up any code to the dialog buttons. Of course we won’t create a button for each dialog instance. You can also form any shape of dialog connections: chains, trees, loops, graphs. The project lives on <a href="https://github.com/seldomU/EventDrivenDialog">GitHub</a>.</p>
 
 <h3 id="data-setup">Data Setup</h3>
 
@@ -124,18 +124,18 @@
 	<span class="k">public</span> <span class="n">Button</span><span class="p">.</span><span class="n">ButtonClickedEvent</span> <span class="n">effect</span><span class="p">;</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>The dialog and each reply get a text field to present their information. As a visual improvement you could add fields for style, avatar image, positioning and such.
-The reply class also has an effect field, which holds all gamestate changes that should happen when this reply is picked.</p>
+<p>The dialog and each reply get a <code class="highlighter-rouge">text</code> field to present their information. As a visual improvement you could add fields for style, avatar image, positioning and such.
+The reply class also has an <code class="highlighter-rouge">effect</code> field, which holds all gamestate changes that should happen when this reply is picked.</p>
 
-<p>We could store a “open that dialog” action as part of the effect event, but we want to be able to visualize the connections between dialogs and inspecting the internals of a UnityEvent is hard. That’s why there’s an extra field for it, called nextDialog.</p>
+<p>We could store a “open that dialog” action as part of the effect event, but we want to be able to visualize the connections between dialogs and inspecting the internals of a UnityEvent is hard. That’s why there’s an extra field for it, called <code class="highlighter-rouge">nextDialog</code>.</p>
 
-<p>Now you can put DialogItem components into empty GameObjects and fill them with content. This dialog turns another GameObject on/off:</p>
+<p>Now you can put <code class="highlighter-rouge">DialogItem</code> components into empty GameObjects and fill them with content. This dialog turns another GameObject on/off:</p>
 
 <p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogInspect.png" /></p>
 
 <h3 id="ui-setup">UI Setup</h3>
 
-<p>The Dialog UI is minimal: a panel with a vertical layout group, containing one Text for the question and enough Buttons to cover the maximum number of replies we expect. I chose 5.</p>
+<p>The Dialog UI is minimal: a panel with a vertical layout group, containing one Text for the question and enough Buttons to cover the maximum number of replies we expect. I chose five.</p>
 
 <p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogPanel.png" width="600" /></p>
 
@@ -145,7 +145,7 @@ The reply class also has an effect field, which holds all gamestate changes that
 
 <h3 id="testing">Testing</h3>
 
-<p>Now we can feed DialogItems to the manager. The DialogTester component, attached to the Main Camera, opens dialogs with you press A or B and closes them when you press C.</p>
+<p>Now we can feed DialogItems to the manager. The <code class="highlighter-rouge">DialogTester</code> component, attached to the <em>Main</em> scene’s Camera, opens dialogs with you press <em>A</em> or <em>B</em> and closes them when you press <em>C</em>.</p>
 
 <ul>
   <li>Dialog A lets you toggle the camera background image.</li>
@@ -154,7 +154,7 @@ The reply class also has an effect field, which holds all gamestate changes that
 
 <h3 id="node-based-editing">Node-based editing</h3>
 
-<p>For things like conversations, you need to link many DialogItems together. The bigger such a graph gets, the harder it is to maintain and understand their structure. This is where node-based editors shine, and the <a href="http://forum.unity3d.com/threads/relationsinspector-reveal-structures-in-your-project-demo.382792/">RelationsInspector</a> lets us create one easily. We just need to supply a backend class, similar to Unity’s custom inspectors. Then we can select it in the RelationsInspector and drag DialogItems into its window. The backend’s main purpuse is to define what the graph nodes should represent, and how they are connected:</p>
+<p>For things like conversations, you need to link many DialogItems together. The bigger such a graph gets, the harder it is to maintain and understand their structure. This is where node-based editors shine, and the <a href="http://forum.unity3d.com/threads/relationsinspector-reveal-structures-in-your-project-demo.382792/">RelationsInspector</a> lets us create one easily. We just need to supply a backend class, similar to Unity’s custom inspectors. Then we can select our backend in the RelationsInspector and drag DialogItems into its window. The backend’s main purpuse is to define what the graph nodes should represent, and how they are connected:</p>
 
 <figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">class</span> <span class="nc">DialogBackend</span> <span class="p">:</span> <span class="n">MinimalBackend</span><span class="p">&lt;</span><span class="n">DialogItem</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;</span>
 <span class="p">{</span>
@@ -173,9 +173,11 @@ The reply class also has an effect field, which holds all gamestate changes that
 	<span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>The full implementation also adds context menu items for manipulating the dialog graph, you can see it here<link />. It is commented out because it dependds on the RelationsInspector <a href="https://www.assetstore.unity3d.com/en/#!/content/54884">package</a>. The example project’s flowchart dialog graph looks like this:</p>
+<p>The full implementation also adds context menu items for manipulating the dialog graph, you can see it <a href="https://github.com/seldomU/EventDrivenDialog/blob/master/Assets/Scripts/Editor/DialogBackend.cs">here</a>. It is commented out because it dependds on the RelationsInspector <a href="https://www.assetstore.unity3d.com/en/#!/content/54884">package</a>. Once you install the package, you can un-comment the backend code and check out the flowchart dialog example from the main scene. It should look something like this:</p>
 
 <p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogFlowChart.png" /></p>
+
+<p>Right-clicking on the nodes and arrows gives you access to the graph-manipulation options defined in the backend. Not all changes done outside the graph window will be reflected by the graph.. to update it, use the <strong>Rebuild</strong> toolbar button. For more information about RelationInspector features, see the <a href="https://github.com/seldomU/RIBackendUtil/wiki/RelationsInspector-Manual#using-the-ri">manual</a>.</p>
 
 <p>That’s it, now you’re all set up for using dialogs in your projects.</p>
 
