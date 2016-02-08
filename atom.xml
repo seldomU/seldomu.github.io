@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Seldom Tools</title>
+ <link href="https://seldomu.github.io//atom.xml" rel="self"/>
+ <link href="https://seldomu.github.io//"/>
+ <updated>2016-02-08T19:17:42+01:00</updated>
+ <id>https://seldomu.github.io/</id>
+ <author>
+   <name>Uwe Koch</name>
+   <email>seldom.indeed@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Event-driven Dialogs with node-based Editor</title>
+   <link href="https://seldomu.github.io//2016/02/07/dialogArticle/"/>
+   <updated>2016-02-07T00:00:00+01:00</updated>
+   <id>https://seldomu.github.io//2016/02/07/dialogArticle</id>
+   <content type="html">&lt;p&gt;This post covers the creation of a simple general purpose dialog system, including a visual Editor that makes it easy to use for even complex dialog graphs. It is versatile: thanks to Unity’s event widget, you can hook up any code to the dialog buttons. You can also form any shape of dialog connections: chains, trees, loops, graphs. The project lives on &lt;a href=&quot;https://github.com/seldomU/EventDrivenDialog&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;data-setup&quot;&gt;Data Setup&lt;/h3&gt;
+
+&lt;p&gt;Let’s define a dialog as a UI element that presents the player with some information and, optionally, a choice of replies. When the user selects a reply, there should be some effect on the game and the dialog UI should disappear. Translated to C# data types:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DialogItem&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MonoBehaviour&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogReply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;replies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;[Serializable]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DialogReply&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DialogItem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nextDialog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ButtonClickedEvent&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;effect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The dialog and each reply get a text field to present their information. As a visual improvement you could add fields for style, avatar image, positioning and such.
+The reply class also has an effect field, which holds all gamestate changes that should happen when this reply is picked.&lt;/p&gt;
+
+&lt;p&gt;We could store a “open that dialog” action as part of the effect event, but we want to be able to visualize the connections between dialogs and inspecting the internals of a UnityEvent is hard. That’s why there’s an extra field for it, called nextDialog.&lt;/p&gt;
+
+&lt;p&gt;Now you can put DialogItem components into empty GameObjects and fill them with content. This dialog turns another GameObject on/off:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogInspect.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ui-setup&quot;&gt;UI Setup&lt;/h3&gt;
+
+&lt;p&gt;The Dialog UI is minimal: a panel with a vertical layout group, containing one Text for the question and enough Buttons to cover the maximum number of replies we expect. I chose 5.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogPanel.png&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;hooking-up-data-and-ui&quot;&gt;Hooking up data and UI&lt;/h3&gt;
+
+&lt;p&gt;We need a manager component that can be used by the game to show and hide dialogs. Showing a dialog involves activating the panel and populating the question text and reply buttons from a given DialogItem. For hiding the dialog, we’ll deactivate the panel. The full C# code is &lt;a href=&quot;https://github.com/seldomU/EventDrivenDialog/blob/master/Assets/Scripts/DialogManager.cs&quot;&gt;here&lt;/a&gt;. Make sure not to put the manager on the panel’s GameObject, or it will deactivate itself along with the panel. In the example project, the manager is attached to the Main Camera.&lt;/p&gt;
+
+&lt;h3 id=&quot;testing&quot;&gt;Testing&lt;/h3&gt;
+
+&lt;p&gt;Now we can feed DialogItems to the manager. The DialogTester component, attached to the Main Camera, opens dialogs with you press A or B and closes them when you press C.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Dialog A lets you toggle the camera background image.&lt;/li&gt;
+  &lt;li&gt;Dialog B is a flowchart that helps the player to decide how to act in a hunger situation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;node-based-editing&quot;&gt;Node-based editing&lt;/h3&gt;
+
+&lt;p&gt;For things like conversations, you need to link many DialogItems together. The bigger such a graph gets, the harder it is to maintain and understand their structure. This is where node-based editors shine, and the &lt;a href=&quot;http://forum.unity3d.com/threads/relationsinspector-reveal-structures-in-your-project-demo.382792/&quot;&gt;RelationsInspector&lt;/a&gt; lets us create one easily. We just need to supply a backend class, similar to Unity’s custom inspectors. Then we can select it in the RelationsInspector and drag DialogItems into its window. The backend’s main purpuse is to define what the graph nodes should represent, and how they are connected:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DialogBackend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MinimalBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IEnumerable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Relation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;GetRelations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DialogItem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replies&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+			&lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+		&lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reply&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replies&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+			&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nextDialog&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+				&lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+			&lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Relation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nextDialog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The full implementation also adds context menu items for manipulating the dialog graph, you can see it here&lt;link /&gt;. It is commented out because it dependds on the RelationsInspector &lt;a href=&quot;https://www.assetstore.unity3d.com/en/#!/content/54884&quot;&gt;package&lt;/a&gt;. The example project’s flowchart dialog graph looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogFlowChart.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That’s it, now you’re all set up for using dialogs in your projects.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+
+</feed>
