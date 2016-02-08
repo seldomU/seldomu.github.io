@@ -131,13 +131,13 @@ The reply class also has an <code class="highlighter-rouge">effect</code> field,
 
 <p>Now you can put <code class="highlighter-rouge">DialogItem</code> components into empty GameObjects and fill them with content. This dialog turns another GameObject on/off:</p>
 
-<p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogInspect.png" /></p>
+<p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/DialogInspect.png" /></p>
 
 <h3 id="ui-setup">UI Setup</h3>
 
 <p>The Dialog UI is minimal: a panel with a vertical layout group, containing one Text for the question and enough Buttons to cover the maximum number of replies we expect. I chose five.</p>
 
-<p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogPanel.png" width="600" /></p>
+<p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/DialogPanel.png" /></p>
 
 <h3 id="hooking-up-data-and-ui">Hooking up data and UI</h3>
 
@@ -175,7 +175,7 @@ The reply class also has an <code class="highlighter-rouge">effect</code> field,
 
 <p>The full implementation also adds context menu items for manipulating the dialog graph, you can see it <a href="https://github.com/seldomU/EventDrivenDialog/blob/master/Assets/Scripts/Editor/DialogBackend.cs">here</a>. It is commented out because it dependds on the RelationsInspector <a href="https://www.assetstore.unity3d.com/en/#!/content/54884">package</a>. Once you install the package, you can un-comment the backend code and check out the flowchart dialog example from the main scene. It should look something like this:</p>
 
-<p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogFlowChart.png" /></p>
+<p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/DialogFlowChart.png" /></p>
 
 <p>Right-clicking on the nodes and arrows gives you access to the graph-manipulation options defined in the backend. Not all changes done outside the graph window will be reflected by the graph.. to update it, use the <strong>Rebuild</strong> toolbar button. For more information about RelationInspector features, see the <a href="https://github.com/seldomU/RIBackendUtil/wiki/RelationsInspector-Manual#using-the-ri">manual</a>.</p>
 
