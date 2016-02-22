@@ -11,7 +11,7 @@
 
   <title>
     
-      Blog &middot; Seldom Tools
+      Inspecting UI event handlers &middot; Seldom Tools
     
   </title>
 
@@ -64,7 +64,7 @@
     
       
         
-          <a class="sidebar-nav-item active" href="/blog/">Blog</a>
+          <a class="sidebar-nav-item" href="/blog/">Blog</a>
         
       
     
@@ -101,38 +101,45 @@
       </div>
 
       <div class="container content">
-        <div class="page">
-  <h1 class="page-title">Blog</h1>
-  <div class="posts">
+        <div class="post">
+  <h1 class="post-title">Inspecting UI event handlers</h1>
+  <span class="post-date">22 Feb 2016</span>
+  <p>Unity’s UI system lets components of GameObjects register event types they want to handle. It then forwards input events to the appropriate handler components. Keeping an overview of all those components is hard with the scene hierarchy window, because it contains so many objects. The <a href="https://github.com/seldomU/UIEventBackend">UIEventBackend</a> provides a single location for accessing all UI event handler components and their listeners. See it in action <a href="https://youtu.be/8-gkwMQgb7Y">here</a>.</p>
+
+<p><img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/UIEventBackend.png" /></p>
+
+<h3 id="how-to-use-it">How to use it</h3>
+
+<p>If you haven’t yet, install the <a href="https://www.assetstore.unity3d.com/en/#!/content/54884">RelationsInspector</a>. Download the backend files from <a href="https://github.com/seldomU/UIEventBackend">GitHub</a> and put them into an <em>Editor</em> folder. Open the RelationsInspector through the Window menu, select <em>UIEventBackend</em> from the toobar dropdown and click the <code class="highlighter-rouge">Show all scene events</code> button, to see all UI event handler components of the loaded scene.</p>
+
+<p>The scene node is connected to all handler components, and those are connected to their listeners. By hovering over an arrow you can see what event a listener subscribes to. Hovering over a listener node shows details about the target object, the called method and the passed argument. Through the listener node’s context menu you can open the method’s source file, if it is available.</p>
+
+<p>By dragging GameObjects into the window, you get only handlers that are children of those GameObjects.
+Through the backend toolbar you can choose how node selection should be handled:</p>
+
 <ul>
-  
-    <li>
-      <a href="/2016/02/22/uiEventInspector/">Inspecting UI event handlers</a>
-      <p>Unity’s UI system lets components of GameObjects register event types they want to handle. It then forwards input events to the appropriate handler components. Keeping an overview of all those components is hard with the scene hierarchy window, because it contains so many objects. The <a href="https://github.com/seldomU/UIEventBackend">UIEventBackend</a> provides a single location for accessing all UI event handler components and their listeners. See it in action <a href="https://youtu.be/8-gkwMQgb7Y">here</a>.</p>
-
-
-    </li>
-  
-    <li>
-      <a href="/2016/02/07/dialogEditor/">Event-driven Dialogs with node-based Editor</a>
-      <p>This post covers the creation of a simple general purpose dialog system, including a visual Editor that makes it easy to use for even complex dialog graphs. It’s versatile: thanks to Unity’s event widget, you can hook up any code to the dialog buttons. Of course we won’t create a button for each dialog instance. You can also form any shape of dialog connections: chains, trees, loops, graphs. The project lives on <a href="https://github.com/seldomU/EventDrivenDialog">GitHub</a>.</p>
-
-
-    </li>
-  
+  <li><em>Select GameObject</em> will select the GameObject of the handler or listener in all other Unity windows</li>
+  <li><em>Select component</em> will select the component of the handler or listener in all other Unity windows (nice for event editing)</li>
+  <li><em>None</em> leaves Unity’s selection unchanged and thus won’t effect other windows</li>
 </ul>
-</div>
-<!--
-<div class="pagination">
-  
-    <span class="pagination-item older">Older</span>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
--->
 
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/02/07/dialogEditor/">
+            Event-driven Dialogs with node-based Editor
+            <small>07 Feb 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
 </div>
 
       </div>

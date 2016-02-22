@@ -4,13 +4,40 @@
  <title>Seldom Tools</title>
  <link href="https://seldomu.github.io//atom.xml" rel="self"/>
  <link href="https://seldomu.github.io//"/>
- <updated>2016-02-08T20:11:34+01:00</updated>
+ <updated>2016-02-22T11:44:08+01:00</updated>
  <id>https://seldomu.github.io/</id>
  <author>
    <name>Uwe Koch</name>
    <email>seldom.indeed@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Inspecting UI event handlers</title>
+   <link href="https://seldomu.github.io//2016/02/22/uiEventInspector/"/>
+   <updated>2016-02-22T00:00:00+01:00</updated>
+   <id>https://seldomu.github.io//2016/02/22/uiEventInspector</id>
+   <content type="html">&lt;p&gt;Unity’s UI system lets components of GameObjects register event types they want to handle. It then forwards input events to the appropriate handler components. Keeping an overview of all those components is hard with the scene hierarchy window, because it contains so many objects. The &lt;a href=&quot;https://github.com/seldomU/UIEventBackend&quot;&gt;UIEventBackend&lt;/a&gt; provides a single location for accessing all UI event handler components and their listeners. See it in action &lt;a href=&quot;https://youtu.be/8-gkwMQgb7Y&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/UIEventBackend.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;how-to-use-it&quot;&gt;How to use it&lt;/h3&gt;
+
+&lt;p&gt;If you haven’t yet, install the &lt;a href=&quot;https://www.assetstore.unity3d.com/en/#!/content/54884&quot;&gt;RelationsInspector&lt;/a&gt;. Download the backend files from &lt;a href=&quot;https://github.com/seldomU/UIEventBackend&quot;&gt;GitHub&lt;/a&gt; and put them into an &lt;em&gt;Editor&lt;/em&gt; folder. Open the RelationsInspector through the Window menu, select &lt;em&gt;UIEventBackend&lt;/em&gt; from the toobar dropdown and click the &lt;code class=&quot;highlighter-rouge&quot;&gt;Show all scene events&lt;/code&gt; button, to see all UI event handler components of the loaded scene.&lt;/p&gt;
+
+&lt;p&gt;The scene node is connected to all handler components, and those are connected to their listeners. By hovering over an arrow you can see what event a listener subscribes to. Hovering over a listener node shows details about the target object, the called method and the passed argument. Through the listener node’s context menu you can open the method’s source file, if it is available.&lt;/p&gt;
+
+&lt;p&gt;By dragging GameObjects into the window, you get only handlers that are children of those GameObjects.
+Through the backend toolbar you can choose how node selection should be handled:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Select GameObject&lt;/em&gt; will select the GameObject of the handler or listener in all other Unity windows&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Select component&lt;/em&gt; will select the component of the handler or listener in all other Unity windows (nice for event editing)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;None&lt;/em&gt; leaves Unity’s selection unchanged and thus won’t effect other windows&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>Event-driven Dialogs with node-based Editor</title>
@@ -44,13 +71,13 @@ The reply class also has an &lt;code class=&quot;highlighter-rouge&quot;&gt;effe
 
 &lt;p&gt;Now you can put &lt;code class=&quot;highlighter-rouge&quot;&gt;DialogItem&lt;/code&gt; components into empty GameObjects and fill them with content. This dialog turns another GameObject on/off:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogInspect.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/DialogInspect.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;ui-setup&quot;&gt;UI Setup&lt;/h3&gt;
 
 &lt;p&gt;The Dialog UI is minimal: a panel with a vertical layout group, containing one Text for the question and enough Buttons to cover the maximum number of replies we expect. I chose five.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogPanel.png&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/DialogPanel.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;hooking-up-data-and-ui&quot;&gt;Hooking up data and UI&lt;/h3&gt;
 
@@ -88,7 +115,7 @@ The reply class also has an &lt;code class=&quot;highlighter-rouge&quot;&gt;effe
 
 &lt;p&gt;The full implementation also adds context menu items for manipulating the dialog graph, you can see it &lt;a href=&quot;https://github.com/seldomU/EventDrivenDialog/blob/master/Assets/Scripts/Editor/DialogBackend.cs&quot;&gt;here&lt;/a&gt;. It is commented out because it dependds on the RelationsInspector &lt;a href=&quot;https://www.assetstore.unity3d.com/en/#!/content/54884&quot;&gt;package&lt;/a&gt;. Once you install the package, you can un-comment the backend code and check out the flowchart dialog example from the main scene. It should look something like this:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/pictures/DialogFlowChart.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/DialogFlowChart.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Right-clicking on the nodes and arrows gives you access to the graph-manipulation options defined in the backend. Not all changes done outside the graph window will be reflected by the graph.. to update it, use the &lt;strong&gt;Rebuild&lt;/strong&gt; toolbar button. For more information about RelationInspector features, see the &lt;a href=&quot;https://github.com/seldomU/RIBackendUtil/wiki/RelationsInspector-Manual#using-the-ri&quot;&gt;manual&lt;/a&gt;.&lt;/p&gt;
 
