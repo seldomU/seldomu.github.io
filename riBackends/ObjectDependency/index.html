@@ -11,7 +11,7 @@
 
   <title>
     
-      404: Page not found &middot; Seldom Tools
+      Dependency backend &middot; Seldom Tools
     
   </title>
 
@@ -94,7 +94,7 @@
     
       
         
-          <a class="sidebar-nav-item" href="/riBackends/ObjectDependency/">Dependency backend</a>
+          <a class="sidebar-nav-item active" href="/riBackends/ObjectDependency/">Dependency backend</a>
         
       
     
@@ -144,8 +144,24 @@
 
       <div class="container content">
         <div class="page">
-  <h1 class="page-title">404: Page not found</h1>
-  <p class="lead">Sorry, we've misplaced that URL or it's pointing to something that doesn't exist. <a href="/">Head back home</a> to try finding it again.</p>
+  <h1 class="page-title">Dependency backend</h1>
+  <h2 id="description">Description</h2>
+
+<p>The <strong>dependency backend</strong> accepts targets of type <em>UnityEngine.Object</em> and displays all objects that the targets depend on (through references), similar to Unity’s <em>Select Dependencies</em> option. Unlike Unity, it shows how those objects depend on each other. This way you can see the internal structure of the that set.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>Find your target object in the project view and drag it into the RI window. Nodes will be created for all objects that a target depends on. Edges represent direct dependency, edge paths mean indirect dependency.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>This backend is shipped with RelationsInspector.</p>
+
+<h2 id="media">Media</h2>
+
+<p>This image shows a prefab, depending on a behaviour of type <em>Enemy</em> and an animator component, which itself has dependencies.
+<img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/BackendPages/DependencyBackendExample.png" /></p>
+
 </div>
 
       </div>
