@@ -11,7 +11,7 @@
 
   <title>
     
-      Core GameKit killable backend &middot; Seldom Tools
+      Dialogue System conversation link backend &middot; Seldom Tools
     
   </title>
 
@@ -76,7 +76,7 @@
     
       
         
-          <a class="sidebar-nav-item active" href="/riBackends/CoreGameKitKillableBackend/">Core GameKit killable backend</a>
+          <a class="sidebar-nav-item" href="/riBackends/CoreGameKitKillableBackend/">Core GameKit killable backend</a>
         
       
     
@@ -88,7 +88,7 @@
     
       
         
-          <a class="sidebar-nav-item" href="/riBackends/DialogueSystemConversationLinkBackend/">Dialogue System conversation link backend</a>
+          <a class="sidebar-nav-item active" href="/riBackends/DialogueSystemConversationLinkBackend/">Dialogue System conversation link backend</a>
         
       
     
@@ -156,28 +156,25 @@
 
       <div class="container content">
         <div class="page">
-  <h1 class="page-title">Core GameKit killable backend</h1>
+  <h1 class="page-title">Dialogue System conversation link backend</h1>
   <h2 id="description">Description</h2>
 
-<p>The <strong>Core GameKit killable backend</strong> displays the scene’s killable GameObjects, connected to the prefabs they spawn upon killable events. The relation arrows are color-coded by prefab event type.</p>
+<p>This backend displays nodes for all conversations of the scene’s dialogue database. A connection is created where entries of two different conversations are linked.</p>
 
 <h2 id="usage">Usage</h2>
 
-<p>Load the scene you want to analyse. Click the <strong>Show active scene</strong> button in the toolbar to generate the graph.</p>
-
-<p>The toolbar also allows you to specify which prefab events should included in the graph and to toggle the color legend. Selecting a node will select the corresponding object in the hierarchy, project view and inspector window.</p>
+<p>Load the scene you want to analyse. Click the <strong>Show scene conversations</strong> button in the toolbar to generate the graph. Through a conversation’s node context menu you can open the conversation in the dialogue editor, or open a graph of the conversation’s entries. Through the arrow context menu you can open the link’s orgin and destination conversation entries.</p>
 
 <h2 id="installation">Installation</h2>
 
-<p>The backend is part of the Core Gamekit installation, along with the RelationsInspector Demo.</p>
+<p>The backend will ship with RelationsInspector soon.</p>
 
 <h2 id="media">Media</h2>
+<p>This image shows a set of heavily connected conversations. The colors reflect the hierarchical structure of the conversation names:
+<img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/DialogueSystemExample.png" /></p>
 
-<p>This images shows how to open the graph from a killable’s inspector:
-<img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/BackendPages/CoreGameKitKillableBackendInvoke.png" /></p>
-
-<p>This image shows all the toolbar features:
-<img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/CoreGameKitKillableEvents.gif" /></p>
+<p>This image shows how a link’s destination entry is opened in the dialogue editor:
+<img src="https://raw.githubusercontent.com/seldomU/seldomu.github.io/master/assets/BackendPages/ConversationLinks.gif" /></p>
 
 </div>
 
