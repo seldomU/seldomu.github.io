@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
- <title>Seldom Tools</title>
+ <title>RelationsInspector</title>
  <link href="https://seldomu.github.io//atom.xml" rel="self"/>
  <link href="https://seldomu.github.io//"/>
- <updated>2016-05-07T00:39:13+02:00</updated>
+ <updated>2020-09-13T21:05:12+02:00</updated>
  <id>https://seldomu.github.io/</id>
  <author>
    <name>Uwe Koch</name>
